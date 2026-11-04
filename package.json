@@ -1,0 +1,13 @@
+{
+  "name": "harsha-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack portfolio for Harsha Nandi — React (Vite) frontend + Express API",
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w client",
+    "start": "npm start -w server"
+  },
+  "devDependencies": { "concurrently": "^9.0.1" }
+}
