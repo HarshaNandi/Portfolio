@@ -1,13 +1,15 @@
+import Split from './Split.jsx';
+
 export default function Skills({ skills }) {
   return (
-    <section id="toolbox" className="section">
-      <div className="section-head reveal">
-        <p className="eyebrow">Toolbox</p>
-        <h2>What I work <em>with</em></h2>
+    <section id="toolbox" className="section" data-acc="#4cc9ff,#7c5cff">
+      <div className="section-head">
+        <p className="eyebrow reveal">Toolbox</p>
+        <Split text="What I work *with*" />
       </div>
       <div className="skills">
-        {skills.map((g) => (
-          <div key={g.group} className="skill-group reveal">
+        {skills.map((g, i) => (
+          <div key={g.group} className="skill-group reveal" data-tilt="7" style={{ transitionDelay: `${i * 70}ms` }}>
             <h3>{g.group}</h3>
             <div className="chips">{g.items.map((s) => <i key={s}>{s}</i>)}</div>
           </div>
