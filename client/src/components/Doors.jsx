@@ -1,14 +1,14 @@
 import { useRef, useState } from 'react';
 import Split from './Split.jsx';
 
-const COLORS = ['#7c5cff', '#ff4d8d', '#20e3b2', '#ffd24a', '#4cc9ff'];
+const COLORS = ['#6c4cff', '#ff3d8b', '#00a884', '#ff8a1f', '#2f80ff'];
 
 export default function Doors({ doors }) {
   const rail = useRef(null);
   const [open, setOpen] = useState(null);
   const nudge = (d) => rail.current.scrollBy({ left: d * 340, behavior: 'smooth' });
   return (
-    <section id="work" className="section" data-acc="#ff4d8d,#ffb347">
+    <section id="work" className="section" data-acc="#ff3d8b,#ff8a1f">
       <div className="section-head">
         <p className="eyebrow reveal">My work, one door per skill</p>
         <Split text="Magic happens behind the *doors*" />

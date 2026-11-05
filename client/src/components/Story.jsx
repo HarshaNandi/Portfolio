@@ -6,7 +6,7 @@ export default function Story({ story }) {
   const s = story[i];
   const pad = (n) => String(n).padStart(2, '0');
   return (
-    <section id="story" className="section" data-acc="#20e3b2,#4cc9ff">
+    <section id="story" className="section" data-acc="#00a884,#2f80ff">
       <div className="section-head">
         <p className="eyebrow reveal">My story</p>
         <Split text="Let's go back in *time*." />

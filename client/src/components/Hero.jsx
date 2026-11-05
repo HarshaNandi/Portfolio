@@ -2,7 +2,7 @@ import Split from './Split.jsx';
 
 export default function Hero({ profile, onHire }) {
   return (
-    <section id="home" className="hero" data-acc="#7c5cff,#ff4d8d">
+    <section id="home" className="hero" data-acc="#6c4cff,#ff3d8b">
       <div className="hero-copy">
         <p className="eyebrow reveal">{profile.role} · {profile.company}</p>
         <Split as="h1" text={`Hi, I'm *${profile.firstName}*. I'm a full-stack developer and data analyst.`} />

@@ -10,7 +10,7 @@ export function useFx(entered) {
       root.style.setProperty('--acc', a); root.style.setProperty('--acc2', b);
       window.__acc = [a, b];
     };
-    setAcc('#7c5cff,#ff4d8d');
+    setAcc('#6c4cff,#ff3d8b');
     const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && setAcc(e.target.dataset.acc)),
       { rootMargin: '-45% 0px -45% 0px' });
     document.querySelectorAll('[data-acc]').forEach((s) => io.observe(s));

@@ -5,7 +5,7 @@ export default function Projects({ projects }) {
   const [f, setF] = useState('All');
   const list = projects.filter((p) => f === 'All' || (f === 'Work') === (p.kind === 'Work'));
   return (
-    <section id="projects" className="section" data-acc="#ffd24a,#ff6b3d">
+    <section id="projects" className="section" data-acc="#ff8a1f,#ff4d4d">
       <div className="section-head">
         <p className="eyebrow reveal">Selected projects</p>
         <Split text="Things I've *built*" />

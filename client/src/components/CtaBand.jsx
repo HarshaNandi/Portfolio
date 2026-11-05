@@ -2,7 +2,7 @@ import Split from './Split.jsx';
 
 export default function CtaBand({ onHire }) {
   return (
-    <section id="cta" className="cta" data-acc="#ff6b3d,#ff4d8d">
+    <section id="cta" className="cta" data-acc="#ff5a36,#ff3d8b">
       <p className="eyebrow reveal">Available for new work</p>
       <Split text="Need something built? Let's make it *happen*." />
       <p className="reveal">Tell me what you need — a web app, a dashboard or a data pipeline. I reply within a day.</p>

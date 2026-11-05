@@ -2,7 +2,7 @@ import Split from './Split.jsx';
 
 export default function Skills({ skills }) {
   return (
-    <section id="toolbox" className="section" data-acc="#4cc9ff,#7c5cff">
+    <section id="toolbox" className="section" data-acc="#2f80ff,#6c4cff">
       <div className="section-head">
         <p className="eyebrow reveal">Toolbox</p>
         <Split text="What I work *with*" />
