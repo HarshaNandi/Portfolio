@@ -15,3 +15,9 @@ npm run build && npm start   # production on http://localhost:4000
 ```
 
 Copy `.env.example` to `.env` and set SMTP values to get contact-form messages emailed; otherwise they're saved to `server/data/messages.json`.
+
+## Deploy on Vercel
+
+1. Push this repo to GitHub, then on vercel.com choose **Add New → Project** and import it (leave the root directory as is — `vercel.json` sets the build).
+2. Under **Environment Variables** add `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_TO` so the contact form can email you (for Gmail use `smtp.gmail.com`, port `587` and an App Password).
+3. Deploy. `api/` holds the serverless versions of the Express routes; `server/` is for running locally or on a Node host.
