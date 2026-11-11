@@ -33,7 +33,8 @@ export default function Scene3D() {
       g.deleteAttribute('normal'); g.deleteAttribute('uv');
       g = mergeVertices(g, 1e-4);
       const P = g.attributes.position, base = Float32Array.from(P.array);
-      const coreMat = new THREE.MeshPhysicalMaterial({ color: cA, roughness: 0.22, metalness: 0.05, clearcoat: 1, clearcoatRoughness: 0.12, sheen: 0.6, sheenColor: cB });
+      const cCore = new THREE.Color('#6a6d64'), tCore = new THREE.Color('#6a6d64');
+      const coreMat = new THREE.MeshPhysicalMaterial({ color: cCore, roughness: 0.22, metalness: 0.05, clearcoat: 1, clearcoatRoughness: 0.12, sheen: 0.6, sheenColor: cB });
       const core = new THREE.Mesh(g, coreMat); rig.add(core);
 
       // Satellites on tilted orbits.
@@ -60,7 +61,7 @@ export default function Scene3D() {
         pos.set([r * Math.sin(u) * Math.cos(t), r * Math.sin(u) * Math.sin(t), r * Math.cos(u) - 4], i * 3);
       }
       const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      const dustMat = new THREE.PointsMaterial({ size: 0.07, color: cB, transparent: true, opacity: 0.55, depthWrite: false });
+      const dustMat = new THREE.PointsMaterial({ size: 0.06, color: cCore, transparent: true, opacity: 0.5, depthWrite: false });
       const dust = new THREE.Points(pg, dustMat); scene.add(dust);
       const l1 = new THREE.PointLight(0xffffff, 40, 40); l1.position.set(5, 5, 6); scene.add(l1);
 
@@ -116,7 +117,8 @@ export default function Scene3D() {
         const [n0, n1] = window.__acc || [];
         if (n0) { tA.set(n0); tB.set(n1); }
         cA.lerp(tA, 0.04); cB.lerp(tB, 0.04);
-        coreMat.color.copy(cA); coreMat.sheenColor.copy(cB); dustMat.color.copy(cB);
+        tCore.set(document.documentElement.dataset.theme === 'light' ? '#bdbaae' : '#6a6d64'); cCore.lerp(tCore, 0.06);
+        coreMat.color.copy(cCore); coreMat.sheenColor.copy(cB); dustMat.color.copy(cCore);
         renderer.render(scene, cam);
       };
       loop();

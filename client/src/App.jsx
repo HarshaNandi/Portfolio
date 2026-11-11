@@ -13,8 +13,11 @@ import ContactModal from './components/ContactModal.jsx';
 import Scene3D from './components/Scene3D.jsx';
 import Marquee from './components/Marquee.jsx';
 import Wipe from './components/Wipe.jsx';
+import Lamp, { initialTheme } from './components/Lamp.jsx';
 import { useReveal } from './hooks.js';
 import { useFx } from './fx.js';
+
+document.documentElement.dataset.theme = initialTheme();
 
 export default function App() {
   const [profile, setProfile] = useState(fallback);
@@ -60,6 +63,7 @@ export default function App() {
       <div className="progress" />
       <div className="cursor-dot" /><div className="cursor-ring" />
       <Wipe phase={wipe} />
+      <Lamp />
       {!entered && <Loader onEnter={() => setEntered(true)} />}
       <a className="skip" href="#main">Skip to content</a>
       <Header profile={profile} onHire={openContact} />

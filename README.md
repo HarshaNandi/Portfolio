@@ -3,6 +3,7 @@
 Full-stack portfolio inspired by the "ability card" style of therishithakor.com, built with my own content.
 
 - **Frontend:** React 18 + Vite + three.js — 3D glossy morphing blob with orbiting shapes that spins with scroll and changes colour per section, 3D loader cube with curtain reveal, curtain-wipe page transitions, masked word-by-word headings, 3D-tilting hero card, swipeable 3D "doors", flip-through career timeline, marquee bands, custom cursor, magnetic buttons, contact modal, live Kolkata clock.
+- **Look:** modelled on the reference — flat top bar with a live local-time pill, bold two-tone headlines, a hanging pull-cord that switches dark ⇄ cream light with a circular reveal, big "Need something built?" call-to-action and a three-column footer.
 - **Backend:** Node + Express — `GET /api/profile`, `POST /api/contact` (validation, honeypot, rate-limit, JSON storage, optional SMTP email), serves the built frontend in production.
 - **Content:** edit `server/data/profile.json` — the site updates from that single file.
 
