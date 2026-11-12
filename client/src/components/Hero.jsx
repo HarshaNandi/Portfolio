@@ -1,6 +1,11 @@
 import Split from './Split.jsx';
 
 export default function Hero({ profile, onHire }) {
+  const stats = [
+    [`${profile.projects.length}`, 'Projects built'],
+    [`${profile.story.filter((s) => /Developer|Analyst/.test(s.title)).length}`, 'Roles so far'],
+    ['4th yr', 'B.Tech · Data Science'],
+  ];
   return (
     <section id="home" className="hero" data-acc="#7c5cff,#ff4d8d">
       <div className="hero-copy">
@@ -11,14 +16,18 @@ export default function Hero({ profile, onHire }) {
           <button className="btn" onClick={onHire}>Hire me</button>
           <a className="btn ghost" href="#work">See my work</a>
         </div>
+        <div className="stats reveal">
+          {stats.map(([n, l]) => <div key={l}><b>{n}</b><span>{l}</span></div>)}
+        </div>
       </div>
       <div className="stage reveal">
-        <div className="card" data-tilt="12">
-          <div className="photo"><img src="/harsha.jpg" alt={`Portrait of ${profile.name}`} /></div>
-          <div className="card-meta">
+        <div className="portrait" data-tilt="8">
+          <span className="orb o1" /><span className="orb o2" />
+          <div className="arch" />
+          <img className="cut" src="/harsha-cutout.webp" alt={`Portrait of ${profile.name}`} />
+          <div className="namecard">
             <strong>{profile.name}</strong>
             <span>{profile.role} · {profile.company}</span>
-            <span>{profile.location}</span>
           </div>
           <span className="badge b1">Laravel</span>
           <span className="badge b2">Python</span>
