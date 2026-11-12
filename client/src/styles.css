@@ -216,3 +216,29 @@ main,.footer{position:relative;z-index:2}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.split .w>span{transform:none}}
 
+
+/* ===== pro polish: rotating role, 3D floor + orbits, sphere, spotlight ===== */
+.hero-h1 .split{display:block}
+.rot{display:block;height:2.02em;overflow:hidden;margin-top:.04em}
+.rot-in{display:block;animation:rotin .8s var(--ease)}
+@keyframes rotin{from{transform:translateY(105%) rotateX(-40deg);opacity:0}}
+.floor{position:absolute;left:0;right:0;bottom:0;height:42%;overflow:hidden;pointer-events:none;z-index:0;-webkit-mask-image:linear-gradient(transparent,#000 70%);mask-image:linear-gradient(transparent,#000 70%);perspective:420px}
+.floor::before{content:'';position:absolute;left:-50%;right:-50%;top:0;bottom:-60%;transform:rotateX(62deg);transform-origin:50% 0;background:linear-gradient(color-mix(in srgb,var(--acc) 24%,transparent) 1px,transparent 1px) 0 0/64px 64px,linear-gradient(90deg,color-mix(in srgb,var(--acc) 24%,transparent) 1px,transparent 1px) 0 0/64px 64px;animation:grid 3.2s linear infinite}
+@keyframes grid{to{background-position:0 64px,0 0}}
+.hero>*:not(.floor){position:relative;z-index:1}
+.hero .scroll-cue{position:absolute}
+.orbit{position:absolute;left:50%;top:56%;width:128%;aspect-ratio:1;margin:-64% 0 0 -64%;border-radius:50%;border:1px solid color-mix(in srgb,var(--acc) 60%,transparent);transform-style:preserve-3d;pointer-events:none;animation:orb 16s linear infinite;--tilt:72deg}
+.orbit.r2{width:112%;margin:-56% 0 0 -56%;--tilt:72deg;animation-duration:22s;animation-direction:reverse;border-color:color-mix(in srgb,var(--acc2) 55%,transparent);rotate:y 28deg}
+.orbit i{position:absolute;top:-6px;left:50%;width:11px;height:11px;margin-left:-5px;border-radius:50%;background:var(--acc2);box-shadow:0 0 16px var(--acc2),0 0 36px var(--acc2)}
+@keyframes orb{from{transform:rotateX(var(--tilt)) rotateZ(0)}to{transform:rotateX(var(--tilt)) rotateZ(360deg)}}
+.skills-wrap{display:grid;grid-template-columns:.95fr 1.05fr;gap:40px;align-items:center}
+.skills-wrap .skills{grid-template-columns:1fr 1fr}.skills-wrap .skill-group{padding:20px}.skills-wrap .skill-group h3{font-size:1.2rem;margin-bottom:12px}
+.skills-wrap .skill-group:first-child{grid-column:1/-1}
+.sphere-box{position:relative;width:100%;max-width:560px;justify-self:center}
+.sphere{width:100%;aspect-ratio:1;display:block;cursor:grab;touch-action:pan-y}
+.sphere-hint{position:absolute;left:50%;bottom:4px;translate:-50% 0;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:600;pointer-events:none}
+.proj,.skill-group,.tl-card{position:relative}
+.proj::before,.skill-group::before,.tl-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--acc) 26%,transparent),transparent 70%);opacity:0;transition:opacity .35s;pointer-events:none;z-index:0}
+.proj:hover::before,.skill-group:hover::before,.tl-card:hover::after{opacity:1}
+.skill-group{overflow:hidden}.skill-group>*{position:relative;z-index:1}
+@media(max-width:860px){.skills-wrap{grid-template-columns:1fr}.skills-wrap .skills{grid-template-columns:1fr}.floor{height:28%}}

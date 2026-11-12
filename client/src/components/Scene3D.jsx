@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 export default function Scene3D() {
   const ref = useRef(null);
   useEffect(() => {
-    if (new URLSearchParams(location.search).has('no3d')) return;
+    { const q = new URLSearchParams(location.search); if (q.has('no3d') || q.has('nobg')) return; }
     let disposed = false;
     let cleanup = () => {};
     (async () => {

@@ -41,6 +41,8 @@ export function useFx(entered) {
       if (dot) dot.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
       const hot = e.target.closest?.('a,button,[data-tilt]');
       ring?.classList.toggle('hot', !!hot);
+      const sp = e.target.closest?.('.proj,.skill-group,.tl-card');
+      if (sp) { const r = sp.getBoundingClientRect(); sp.style.setProperty('--mx', `${e.clientX - r.left}px`); sp.style.setProperty('--my', `${e.clientY - r.top}px`); }
       const t = e.target.closest?.('[data-tilt]');
       if (t) {
         const r = t.getBoundingClientRect(), k = Number(t.dataset.tilt) || 10;
