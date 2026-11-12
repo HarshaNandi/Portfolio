@@ -242,3 +242,17 @@ main,.footer{position:relative;z-index:2}
 .proj:hover::before,.skill-group:hover::before,.tl-card:hover::after{opacity:1}
 .skill-group{overflow:hidden}.skill-group>*{position:relative;z-index:1}
 @media(max-width:860px){.skills-wrap{grid-template-columns:1fr}.skills-wrap .skills{grid-template-columns:1fr}.floor{height:28%}}
+
+/* ===== toolbox glow-up ===== */
+.sphere-box::before{content:'';position:absolute;inset:-4%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--acc) 26%,transparent),color-mix(in srgb,var(--acc2) 10%,transparent) 55%,transparent 72%);filter:blur(10px);pointer-events:none}
+.sphere-box::after{content:'';position:absolute;inset:3%;border-radius:50%;border:1px dashed color-mix(in srgb,var(--acc) 45%,transparent);animation:ringspin 50s linear infinite;pointer-events:none}
+@keyframes ringspin{to{transform:rotate(360deg)}}
+.sphere{position:relative;z-index:1}
+.sg-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sg-head h3{margin:0!important;flex:1}
+.gnum{font-size:.78rem;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--g);border-radius:8px;padding:4px 8px}
+.gcount{font-size:.78rem;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.skill-group{border-top:2px solid var(--g)}
+.skill-group .chips i{border-color:color-mix(in srgb,var(--g) 50%,transparent);background:color-mix(in srgb,var(--g) 13%,transparent);color:var(--ink);transition:background .25s,color .25s,transform .25s}
+.skill-group .chips i:hover{background:var(--g);color:#fff;transform:translateY(-2px)}
+.skill-group:hover{border-color:var(--g);box-shadow:0 26px 50px -30px var(--g)}

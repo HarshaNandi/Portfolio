@@ -55,7 +55,7 @@ export default function App() {
   }, []);
 
   const openContact = () => setContactOpen(true);
-  const tech = ['Laravel', 'Python', 'SQL', 'Power BI', 'WordPress', 'Tableau', 'NLP', 'MySQL', 'Git'];
+  const tech = ['Laravel', 'Python', 'SQL', 'Power BI', 'WordPress', 'Excel', 'NLP', 'MySQL', 'Git'];
 
   return (
     <>

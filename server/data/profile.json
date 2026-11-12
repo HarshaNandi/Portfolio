@@ -11,11 +11,11 @@
   "github": "https://github.com/HarshaNandi/",
   "summary": "Fourth-year B.Tech Computer Science student specialising in Data Science. I build web applications with Laravel and WordPress, and turn large datasets into predictive models and real-time dashboards with Python, SQL and Power BI.",
   "doors": [
-    { "title": "Web Developer", "tag": "Laravel · WordPress", "text": "Enterprise web apps, CRMs and client sites — new features, API integrations, database optimisation and production fixes.", "stack": ["Laravel", "PHP", "WordPress", "REST APIs", "MySQL", "Git"] },
+    { "title": "Web Developer", "tag": "Laravel · WordPress", "text": "Enterprise web apps, CRMs and client sites — new features, API integrations, database optimisation and production fixes.", "stack": ["Laravel", "PHP", "WordPress", "MySQL", "Git"] },
     { "title": "Data Analyst", "tag": "Python · SQL", "text": "Cleaning, shaping and analysing large datasets so the pipeline stays consistent and the numbers can be trusted.", "stack": ["Python", "SQL", "MySQL", "Excel", "Jupyter"] },
-    { "title": "Dashboard Builder", "tag": "Power BI · Tableau", "text": "Dynamic visual dashboards that track KPIs — revenue, product performance, customer demographics and web traffic.", "stack": ["Power BI", "Tableau", "MS Excel", "Data Viz"] },
+    { "title": "Dashboard Builder", "tag": "Power BI · Excel", "text": "Dynamic visual dashboards that track KPIs — revenue, product performance, customer demographics and web traffic.", "stack": ["Power BI", "MS Excel", "Data Viz"] },
     { "title": "Data Scientist", "tag": "ML · NLP", "text": "Predictive models and text classification that sharpen forecasting and business intelligence.", "stack": ["Python", "Statistics", "Data Mining", "NLP"] },
-    { "title": "Problem Solver", "tag": "C · Java", "text": "Solid CS fundamentals, code reviews, debugging complex issues and shipping production-ready features with a team.", "stack": ["C", "Java", "Git", "VS Code"] }
+    { "title": "Problem Solver", "tag": "Debugging · Git", "text": "Solid CS fundamentals, code reviews, debugging complex issues and shipping production-ready features with a team.", "stack": ["Git", "VS Code", "Debugging", "Code reviews"] }
   ],
   "story": [
     { "date": "Feb 2026 – Now", "title": "Associate Developer", "org": "Corelynx Solutions Private Limited", "points": [
@@ -45,8 +45,8 @@
     { "title": "Google Console Report", "kind": "Dashboard", "date": "Sep 2024", "text": "Visualised website performance data including CTR and impressions." }
   ],
   "skills": [
-    { "group": "Languages", "items": ["Python", "C", "Java", "SQL", "MySQL", "PHP (Laravel)"] },
-    { "group": "Data & Visualisation", "items": ["Power BI", "Tableau", "MS Excel", "Data Sets"] },
+    { "group": "Languages", "items": ["Python", "SQL", "MySQL", "PHP (Laravel)"] },
+    { "group": "Data & Visualisation", "items": ["Power BI", "MS Excel", "Data Sets"] },
     { "group": "Specialised", "items": ["Data Mining", "Statistics", "Data Visualisation", "NLP"] },
     { "group": "Tools", "items": ["Git", "Jupyter", "VS Code", "Google Colab", "MS Office"] },
     { "group": "Certifications", "items": ["Data Analytics", "Presentation Skills", "Instagram Marketing"] }
