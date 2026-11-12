@@ -70,6 +70,23 @@ export default function Scene3D() {
       const resize = () => { renderer.setSize(innerWidth, innerHeight, false); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); };
       resize(); window.addEventListener('resize', resize);
 
+      // Scroll-driven camera: each section has a keyframe (blob position/scale/spin, camera distance and
+      // sway, satellite orbit spread, roll). Between sections the rig eases from one keyframe to the next.
+      const IDS = ['home', 'work', 'story', 'projects', 'toolbox', 'cta'];
+      const KF = [
+        { x: 3.0, y: 0.2, s: 1.0, ry: 0.0, cz: 10.0, cx: 0.0, cy: 0.0, orbit: 1.0, roll: 0 },
+        { x: -3.3, y: -0.3, s: 1.2, ry: 1.3, cz: 8.4, cx: 0.8, cy: 0.4, orbit: 1.3, roll: 0.05 },
+        { x: 3.5, y: 0.2, s: 1.0, ry: -1.0, cz: 9.6, cx: -0.7, cy: -0.1, orbit: 0.85, roll: -0.05 },
+        { x: -3.5, y: 0.0, s: 1.35, ry: 2.1, cz: 7.4, cx: 0.0, cy: 0.5, orbit: 1.6, roll: 0.07 },
+        { x: 3.7, y: 2.2, s: 0.55, ry: -2.3, cz: 11.5, cx: 0.0, cy: -0.3, orbit: 1.0, roll: -0.06 },
+        { x: 3.9, y: 0.0, s: 1.1, ry: 3.3, cz: 9.4, cx: -0.4, cy: 0.2, orbit: 1.1, roll: 0 },
+      ];
+      let tops = [];
+      const measure = () => { tops = IDS.map((id) => { const el = document.getElementById(id); return el ? el.getBoundingClientRect().top + scrollY : 0; }); };
+      measure(); window.addEventListener('resize', measure);
+      const st = { ...KF[0] };
+      const smooth = (a, b, x) => { const k = Math.min(1, Math.max(0, (x - a) / (b - a))); return k * k * (3 - 2 * k); };
+
       let last = scrollY, vel = 0, spin = 0, raf, frames = 0, slow = 0, tPrev = performance.now();
       const clock = new THREE.Clock();
       const loop = () => {
@@ -85,12 +102,23 @@ export default function Scene3D() {
         vel += ((scrollY - last) * 0.0016 - vel) * 0.1; last = scrollY; spin += vel;
 
         const wide = innerWidth > 860;
-        const tx = wide ? Math.cos(p * Math.PI * 4) * 3.1 : 0;
-        const ty = wide ? Math.sin(p * Math.PI * 6) * 0.7 : -1.6 + Math.sin(p * 9) * 0.5;
-        const s = wide ? 1 : 0.6;
-        rig.position.x += (tx - rig.position.x) * 0.05;
-        rig.position.y += (ty + Math.sin(t) * 0.15 - rig.position.y) * 0.05;
-        rig.scale.setScalar(rig.scale.x + (s - rig.scale.x) * 0.05);
+        if (frames % 90 === 0) measure();
+        const pos = scrollY + innerHeight * 0.45;
+        let si = 0; while (si < IDS.length - 1 && pos >= tops[si + 1]) si++;
+        const nextTop = tops[si + 1] ?? tops[si] + innerHeight * 1.5;
+        const f = Math.min(1, Math.max(0, (pos - tops[si]) / Math.max(1, nextTop - tops[si])));
+        const e = si >= IDS.length - 1 ? 0 : smooth(0.5, 1, f);
+        const A = KF[si], B = KF[Math.min(si + 1, KF.length - 1)];
+        for (const key of Object.keys(st)) {
+          const target = A[key] + (B[key] - A[key]) * e;
+          st[key] += (target - st[key]) * 0.06;
+        }
+        const tx = wide ? st.x : 0;
+        const ty = wide ? st.y : -1.6 + Math.sin(p * 9) * 0.5;
+        const sc = wide ? st.s : st.s * 0.58;
+        rig.position.x += (tx - rig.position.x) * 0.08;
+        rig.position.y += (ty + Math.sin(t) * 0.15 - rig.position.y) * 0.08;
+        rig.scale.setScalar(rig.scale.x + (sc - rig.scale.x) * 0.08);
 
         // Liquid ripple: displace every vertex along its normal direction.
         const k = 1 + Math.min(Math.abs(vel) * 25, 0.6);
@@ -104,14 +132,16 @@ export default function Scene3D() {
 
         sats.forEach((o) => {
           const a = t * o.sp + o.ph + spin * 1.5;
-          o.m.position.set(o.r * Math.cos(a), o.r * Math.sin(a) * Math.sin(o.tilt) * 0.8, o.r * Math.sin(a) * Math.cos(o.tilt) * 0.8);
+          const R = o.r * st.orbit;
+          o.m.position.set(R * Math.cos(a), R * Math.sin(a) * Math.sin(o.tilt) * 0.8, R * Math.sin(a) * Math.cos(o.tilt) * 0.8);
           o.m.rotation.x = t * 0.8 * (o.sp > 0 ? 1 : -1); o.m.rotation.y = t * 0.6;
           if (o.role === 'A') o.m.material.color.copy(cA); else if (o.role === 'B') o.m.material.color.copy(cB);
         });
         dust.rotation.y = t * 0.02 + p * 2; dust.rotation.x = p * 0.8;
         m.x += (m.tx - m.x) * 0.05; m.y += (m.ty - m.y) * 0.05;
-        cam.position.x = m.x * 1.4; cam.position.y = -m.y * 1.0; cam.lookAt(0, 0, 0);
-        rig.rotation.y = m.x * 0.7; rig.rotation.x = m.y * 0.4;
+        cam.position.set(m.x * 1.4 + st.cx, -m.y * 1.0 + st.cy, st.cz + (wide ? 0 : 2.5));
+        cam.lookAt(0, 0, 0); cam.rotateZ(st.roll);
+        rig.rotation.y = st.ry + m.x * 0.7; rig.rotation.x = m.y * 0.4;
 
         const [n0, n1] = window.__acc || [];
         if (n0) { tA.set(n0); tB.set(n1); }
@@ -122,7 +152,7 @@ export default function Scene3D() {
       loop();
       cleanup = () => {
         cancelAnimationFrame(raf);
-        window.removeEventListener('pointermove', onMove); window.removeEventListener('resize', resize);
+        window.removeEventListener('pointermove', onMove); window.removeEventListener('resize', resize); window.removeEventListener('resize', measure);
         renderer.dispose(); pmrem.dispose();
       };
     })();
