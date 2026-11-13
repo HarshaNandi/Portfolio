@@ -55,8 +55,9 @@ export default function Hero({ profile, onHire }) {
         <div className="portrait" data-tilt="8">
           <span className="orb o1" /><span className="orb o2" />
           <span className="orbit r1"><i /></span><span className="orbit r2"><i /></span>
-          <div className="arch" />
-          <img className="cut" src="/harsha-cutout.webp" alt={`Portrait of ${profile.name}`} />
+          <div className="arch">
+            <img className="cut" src="/harsha-cutout.webp" alt={`Portrait of ${profile.name}`} />
+          </div>
           <div className="namecard">
             <strong>{profile.name}</strong>
             <span>{profile.role} · {profile.company}</span>
