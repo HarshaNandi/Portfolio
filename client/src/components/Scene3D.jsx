@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { createScreens } from './devScreens.js';
 
-// Site-wide 3D backdrop: a developer's laptop typing real code, ringed by floating terminal / API / Python /
-// dashboard windows and glowing 3D code symbols. A scroll-driven camera flies through the page, and the
+// Site-wide 3D backdrop: a glowing neural-network orb with data pulses racing along its links, ringed by
+// orbiting rings and glowing 3D code symbols. A scroll-driven camera flies through the page, and the
 // accent colours morph with the section in view.
 export default function Scene3D() {
   const ref = useRef(null);
@@ -32,51 +31,69 @@ export default function Scene3D() {
       const cA = new THREE.Color(a0), cB = new THREE.Color(a1);
       const tA = cA.clone(), tB = cB.clone();
       const rig = new THREE.Group(); scene.add(rig);
-      const screens = createScreens(THREE);
 
-      // ---- Laptop ----
-      const laptop = new THREE.Group(); laptop.position.y = -0.9; laptop.scale.setScalar(1.1); rig.add(laptop);
-      const metal = new THREE.MeshStandardMaterial({ color: 0x2a2e44, metalness: 0.85, roughness: 0.32 });
-      laptop.add(new THREE.Mesh(new THREE.BoxGeometry(3.3, 0.12, 2.2), metal));
-      const keys = new THREE.Mesh(new THREE.PlaneGeometry(3.0, 1.35), new THREE.MeshBasicMaterial({ map: screens.keyboard }));
-      keys.rotation.x = -Math.PI / 2; keys.position.set(0, 0.062, -0.22); laptop.add(keys);
-      const pad = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.62), new THREE.MeshStandardMaterial({ color: 0x1c2036, metalness: 0.4, roughness: 0.5 }));
-      pad.rotation.x = -Math.PI / 2; pad.position.set(0, 0.062, 0.72); laptop.add(pad);
-      const lid = new THREE.Group(); lid.position.set(0, 0.06, -1.1); lid.rotation.x = -0.22; laptop.add(lid);
-      const shell = new THREE.Mesh(new THREE.BoxGeometry(3.3, 2.2, 0.08), metal); shell.position.y = 1.1; lid.add(shell);
-      const screen = new THREE.Mesh(new THREE.PlaneGeometry(3.06, 1.91), new THREE.MeshBasicMaterial({ map: screens.editor.tex, toneMapped: false }));
-      screen.position.set(0, 1.1, 0.045); lid.add(screen);
-      const logoMat = new THREE.MeshBasicMaterial({ color: cA });
-      const logo = new THREE.Mesh(new THREE.CircleGeometry(0.17, 32), logoMat); logo.position.set(0, 1.1, -0.045); logo.rotation.y = Math.PI; lid.add(logo);
-      const screenGlow = new THREE.PointLight(cA, 14, 9); screenGlow.position.set(0, 1.1, 1.6); lid.add(screenGlow);
-
-      // ---- Floating windows ----
-      const panelDefs = [
-        { s: screens.terminal, r: 4.3, y: 1.7, a: 0.0 }, { s: screens.dash, r: 4.6, y: -1.7, a: Math.PI / 2 },
-        { s: screens.api, r: 4.2, y: 1.5, a: Math.PI }, { s: screens.py, r: 4.7, y: -2.0, a: (3 * Math.PI) / 2 },
-      ];
-      const panels = panelDefs.map((d) => {
-        const w = 2.15, h = (w * d.s.h) / d.s.w;
-        const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: d.s.tex, transparent: true, side: THREE.DoubleSide, toneMapped: false, depthWrite: false }));
-        rig.add(m); return { ...d, m };
-      });
+      // ---- Neural-network orb: nodes on two shells, links between near neighbours, pulses racing along them ----
+      const orb = new THREE.Group(); rig.add(orb);
+      const glowTex = (() => {
+        const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d');
+        const g = x.createRadialGradient(64, 64, 0, 64, 64, 64);
+        g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.25, 'rgba(255,255,255,.55)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+        x.fillStyle = g; x.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c);
+      })();
+      const pts = [];
+      const OUT = 110, INN = 34;
+      for (let i = 0; i < OUT; i++) {
+        const y = 1 - (i / (OUT - 1)) * 2, r = Math.sqrt(1 - y * y), th = Math.PI * (3 - Math.sqrt(5)) * i, R = 2.5 + (Math.random() - 0.5) * 0.35;
+        pts.push(new THREE.Vector3(Math.cos(th) * r * R, y * R, Math.sin(th) * r * R));
+      }
+      for (let i = 0; i < INN; i++) {
+        const y = 1 - (i / (INN - 1)) * 2, r = Math.sqrt(1 - y * y), th = i * 2.4 + 1, R = 1.25 + (Math.random() - 0.5) * 0.3;
+        pts.push(new THREE.Vector3(Math.cos(th) * r * R, y * R, Math.sin(th) * r * R));
+      }
+      const edges = [], adj = pts.map(() => []);
+      for (let i = 0; i < pts.length; i++) {
+        const near = pts.map((p, j) => [p.distanceTo(pts[i]), j]).filter(([d, j]) => j !== i && d < (i < OUT ? 1.0 : 1.45)).sort((a, b) => a[0] - b[0]).slice(0, 4);
+        near.forEach(([, j]) => { if (!edges.some(([u, v]) => (u === i && v === j) || (u === j && v === i))) { edges.push([i, j]); adj[i].push(j); adj[j].push(i); } });
+      }
+      const lp = new Float32Array(edges.length * 6), lc = new Float32Array(edges.length * 6);
+      edges.forEach(([i, j], k) => { pts[i].toArray(lp, k * 6); pts[j].toArray(lp, k * 6 + 3); });
+      const lg = new THREE.BufferGeometry();
+      lg.setAttribute('position', new THREE.BufferAttribute(lp, 3)); lg.setAttribute('color', new THREE.BufferAttribute(lc, 3));
+      const lineMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.6, depthWrite: false });
+      orb.add(new THREE.LineSegments(lg, lineMat));
+      const mkPoints = (arr, size, opacity) => {
+        const g = new THREE.BufferGeometry(); const pa = new Float32Array(arr.length * 3); arr.forEach((v, i) => v.toArray(pa, i * 3));
+        g.setAttribute('position', new THREE.BufferAttribute(pa, 3));
+        const mat = new THREE.PointsMaterial({ size, map: glowTex, transparent: true, opacity, depthWrite: false, sizeAttenuation: true });
+        const p = new THREE.Points(g, mat); orb.add(p); return mat;
+      };
+      const outerMat = mkPoints(pts.slice(0, OUT), 0.34, 1), innerMat = mkPoints(pts.slice(OUT), 0.22, 0.9);
+      // pulses
+      const PN = 26, pulse = Array.from({ length: PN }, () => { const e = edges[Math.floor(Math.random() * edges.length)]; return { a: e[0], b: e[1], u: Math.random(), sp: 0.5 + Math.random() * 0.9 }; });
+      const pp = new Float32Array(PN * 3), pg2 = new THREE.BufferGeometry(); pg2.setAttribute('position', new THREE.BufferAttribute(pp, 3));
+      const pulseMat = new THREE.PointsMaterial({ size: 0.5, map: glowTex, transparent: true, opacity: 1, depthWrite: false, color: 0xffffff });
+      orb.add(new THREE.Points(pg2, pulseMat));
+      // core glow
+      const coreGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: cA, transparent: true, opacity: 0.9, depthWrite: false }));
+      coreGlow.scale.setScalar(3.4); orb.add(coreGlow);
+      const coreDot = new THREE.Mesh(new THREE.SphereGeometry(0.32, 32, 24), new THREE.MeshBasicMaterial({ color: 0xffffff })); orb.add(coreDot);
+      const mkRing = (rad, col, tx, tz) => { const r = new THREE.Mesh(new THREE.TorusGeometry(rad, 0.012, 8, 240), new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.55 })); r.rotation.set(tx, 0, tz); rig.add(r); return r; };
+      const ringA = mkRing(3.3, cB, Math.PI / 2.2, 0), ringB = mkRing(3.75, cA, Math.PI / 2.7, 0.6);
 
       // ---- Glowing 3D code symbols ----
       const font = new FontLoader().parse(fontJson);
-      const warm = new THREE.Color('#ffc247'), mint = new THREE.Color('#2ee6b0');
+      const warm = new THREE.Color('#ffc247');
       const mkSym = (txt, color, size, depth = 0.22) => {
         const g = new TextGeometry(txt, { font, size, depth, curveSegments: 6, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.02, bevelSegments: 2 });
         g.center();
-        const mat = new THREE.MeshStandardMaterial({ color, metalness: 0.35, roughness: 0.25, emissive: color, emissiveIntensity: 0.4 });
+        const mat = new THREE.MeshStandardMaterial({ color, metalness: 0.35, roughness: 0.25, emissive: color, emissiveIntensity: 0.45 });
         const mesh = new THREE.Mesh(g, mat); rig.add(mesh); return mesh;
       };
       const syms = [
-        { m: mkSym('</>', cA, 0.7), r: 3.4, sp: 0.35, ph: 0.4, y: 0.9, role: 'A' },
-        { m: mkSym('{ }', cB, 0.7), r: 3.9, sp: -0.28, ph: 2.0, y: -0.2, role: 'B' },
-        { m: mkSym(';', warm, 0.9), r: 3.1, sp: 0.5, ph: 3.5, y: 2.2, role: '' },
-        { m: mkSym('#', mint, 0.8), r: 4.5, sp: -0.22, ph: 4.6, y: 0.6, role: '' },
-        { m: mkSym('( )', cA, 0.6), r: 3.7, sp: 0.3, ph: 5.6, y: -1.4, role: 'A' },
-        { m: mkSym('=>', cB, 0.6), r: 4.1, sp: -0.4, ph: 1.2, y: -2.4, role: 'B' },
+        { m: mkSym('</>', cA, 0.62), r: 4.3, sp: 0.35, ph: 0.4, y: 1.5, role: 'A' },
+        { m: mkSym('{ }', cB, 0.62), r: 4.7, sp: -0.28, ph: 2.4, y: -0.9, role: 'B' },
+        { m: mkSym(';', warm, 0.8), r: 4.1, sp: 0.5, ph: 3.9, y: 2.3, role: '' },
+        { m: mkSym('=>', cB, 0.55), r: 4.5, sp: -0.4, ph: 5.3, y: -2.2, role: 'B' },
       ];
 
       // ---- Dust ----
@@ -146,26 +163,31 @@ export default function Scene3D() {
         rig.position.y += (ty + Math.sin(t) * 0.12 - rig.position.y) * 0.08;
         rig.scale.setScalar(rig.scale.x + (sc - rig.scale.x) * 0.08);
 
-        // live screens (~11 fps)
-        if (now - tickAt > 90) { tickAt = now; screens.editor.tick(t); screens.terminal.tick(t); screens.py.tick(t); screens.dash.tick(t); }
-
         m.x += (m.tx - m.x) * 0.05; m.y += (m.ty - m.y) * 0.05;
-        laptop.rotation.y = Math.sin(st.ry) * 0.45 + m.x * 0.7 + Math.sin(t * 0.4) * 0.08;
-        laptop.rotation.x = m.y * 0.15;
-        lid.rotation.x = -0.22 + Math.sin(t * 0.6) * 0.015;
-
         cam.position.set(m.x * 1.2 + st.cx, -m.y * 0.9 + st.cy, st.cz + (wide ? 0 : 2.5));
         cam.lookAt(0, 0, 0); cam.rotateZ(st.roll);
 
-        panels.forEach((d, i) => {
-          const a = place(d.m, d.r * st.orbit, 0.12, d.a, d.y, t, true, i);
-          rig.getWorldQuaternion(qTmp).invert().multiply(cam.quaternion);          // face the camera
-          eTmp.set(Math.sin(t * 0.5 + i) * 0.1, Math.cos(t * 0.4 + i) * 0.12, 0);
-          d.m.quaternion.copy(qTmp).multiply(new THREE.Quaternion().setFromEuler(eTmp));
-          const k = (Math.sin(a) + 1) / 2;                                           // 1 = nearest the camera
-          d.m.material.opacity = 0.95 - 0.5 * k;
-          d.m.scale.setScalar(0.85 + 0.15 * (1 - k));
+        // orb: slow spin (faster while scrolling), gentle breathing, pulses hopping along links
+        orb.rotation.y = t * 0.16 + st.ry * 0.5 + spin * 2; orb.rotation.x = 0.35 + Math.sin(t * 0.3) * 0.1 + m.y * 0.3;
+        orb.scale.setScalar(1 + Math.sin(t * 1.4) * 0.025);
+        ringA.rotation.z += 0.004; ringB.rotation.z -= 0.003; ringA.scale.setScalar(st.orbit); ringB.scale.setScalar(st.orbit);
+        const dark = document.documentElement.dataset.theme !== 'light';
+        const blend = dark ? THREE.AdditiveBlending : THREE.NormalBlending;
+        if (outerMat.blending !== blend) { [outerMat, innerMat, pulseMat, coreGlow.material].forEach((mm) => { mm.blending = blend; mm.needsUpdate = true; }); lineMat.blending = blend; lineMat.needsUpdate = true; }
+        pulse.forEach((u, i) => {
+          u.u += dt * 0.001 * u.sp;
+          if (u.u >= 1) { const next = adj[u.b][Math.floor(Math.random() * adj[u.b].length)] ?? u.a; u.a = u.b; u.b = next; u.u = 0; }
+          const A2 = pts[u.a], B2 = pts[u.b];
+          pp[i * 3] = A2.x + (B2.x - A2.x) * u.u; pp[i * 3 + 1] = A2.y + (B2.y - A2.y) * u.u; pp[i * 3 + 2] = A2.z + (B2.z - A2.z) * u.u;
         });
+        pg2.attributes.position.needsUpdate = true;
+        // gradient colours along the links (accent A → accent B by height)
+        for (let k = 0; k < edges.length * 2; k++) {
+          const yy = Math.min(1, Math.max(0, (lp[k * 3 + 1] / 2.8 + 1) / 2));
+          lc[k * 3] = cA.r + (cB.r - cA.r) * yy; lc[k * 3 + 1] = cA.g + (cB.g - cA.g) * yy; lc[k * 3 + 2] = cA.b + (cB.b - cA.b) * yy;
+        }
+        lg.attributes.color.needsUpdate = true;
+
         syms.forEach((s, i) => {
           place(s.m, s.r * st.orbit, s.sp * 0.6, s.ph, s.y, t, false, i);
           s.m.rotation.y = t * 0.6 * (i % 2 ? -1 : 1); s.m.rotation.x = Math.sin(t * 0.5 + i) * 0.4;
@@ -176,7 +198,8 @@ export default function Scene3D() {
         const [n0, n1] = window.__acc || [];
         if (n0) { tA.set(n0); tB.set(n1); }
         cA.lerp(tA, 0.04); cB.lerp(tB, 0.04);
-        logoMat.color.copy(cA); screenGlow.color.copy(cA); l2.color.copy(cB); dustMat.color.copy(cB);
+        outerMat.color.copy(cA); innerMat.color.copy(cB); pulseMat.color.copy(cB).lerp(new THREE.Color(0xffffff), 0.5); coreGlow.material.color.copy(cA);
+        ringA.material.color.copy(cB); ringB.material.color.copy(cA); l2.color.copy(cB); dustMat.color.copy(cB);
         renderer.render(scene, cam);
       };
       loop();

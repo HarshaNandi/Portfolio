@@ -11,11 +11,11 @@
   "github": "https://github.com/HarshaNandi/",
   "summary": "Fourth-year B.Tech Computer Science student specialising in Data Science. I build web applications with Laravel and WordPress, and turn large datasets into predictive models and real-time dashboards with Python, SQL and Power BI.",
   "doors": [
-    { "title": "Web Developer", "tag": "Laravel · WordPress", "text": "Enterprise web apps, CRMs and client sites — new features, API integrations, database optimisation and production fixes.", "stack": ["Laravel", "PHP", "WordPress", "MySQL", "Git"] },
-    { "title": "Data Analyst", "tag": "Python · SQL", "text": "Cleaning, shaping and analysing large datasets so the pipeline stays consistent and the numbers can be trusted.", "stack": ["Python", "SQL", "MySQL", "Excel", "Jupyter"] },
-    { "title": "Dashboard Builder", "tag": "Power BI · Excel", "text": "Dynamic visual dashboards that track KPIs — revenue, product performance, customer demographics and web traffic.", "stack": ["Power BI", "MS Excel", "Data Viz"] },
-    { "title": "Data Scientist", "tag": "ML · NLP", "text": "Predictive models and text classification that sharpen forecasting and business intelligence.", "stack": ["Python", "Statistics", "Data Mining", "NLP"] },
-    { "title": "Problem Solver", "tag": "Debugging · Git", "text": "Solid CS fundamentals, code reviews, debugging complex issues and shipping production-ready features with a team.", "stack": ["Git", "VS Code", "Debugging", "Code reviews"] }
+    { "title": "Web Architect", "tag": "Laravel · WordPress", "text": "Enterprise web apps, CRMs and client sites — new features, API integrations, database optimisation and production fixes.", "stack": ["Laravel", "PHP", "WordPress", "MySQL", "Git"] },
+    { "title": "Data Detective", "tag": "Python · SQL", "text": "Cleaning, shaping and analysing large datasets so the pipeline stays consistent and the numbers can be trusted.", "stack": ["Python", "SQL", "MySQL", "Excel", "Jupyter"] },
+    { "title": "Insight Designer", "tag": "Power BI · Excel", "text": "Dynamic visual dashboards that track KPIs — revenue, product performance, customer demographics and web traffic.", "stack": ["Power BI", "MS Excel", "Data Viz"] },
+    { "title": "Pattern Hunter", "tag": "ML · NLP", "text": "Predictive models and text classification that sharpen forecasting and business intelligence.", "stack": ["Python", "Statistics", "Data Mining", "NLP"] },
+    { "title": "Bug Slayer", "tag": "Debugging · Git", "text": "Solid CS fundamentals, code reviews, debugging complex issues and shipping production-ready features with a team.", "stack": ["Git", "VS Code", "Debugging", "Code reviews"] }
   ],
   "story": [
     { "date": "Feb 2026 – Now", "title": "Associate Developer", "org": "Corelynx Solutions Private Limited", "points": [
