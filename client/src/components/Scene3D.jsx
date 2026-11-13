@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-// Site-wide 3D backdrop: a glowing neural-network orb with data pulses racing along its links, ringed by
+// Site-wide 3D backdrop: a glowing DNA-style data helix with pulses racing along its strands, ringed by
 // orbiting rings and glowing 3D code symbols. A scroll-driven camera flies through the page, and the
 // accent colours morph with the section in view.
 export default function Scene3D() {
@@ -40,21 +40,16 @@ export default function Scene3D() {
         g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.25, 'rgba(255,255,255,.55)'); g.addColorStop(1, 'rgba(255,255,255,0)');
         x.fillStyle = g; x.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c);
       })();
-      const pts = [];
-      const OUT = 110, INN = 34;
-      for (let i = 0; i < OUT; i++) {
-        const y = 1 - (i / (OUT - 1)) * 2, r = Math.sqrt(1 - y * y), th = Math.PI * (3 - Math.sqrt(5)) * i, R = 2.5 + (Math.random() - 0.5) * 0.35;
-        pts.push(new THREE.Vector3(Math.cos(th) * r * R, y * R, Math.sin(th) * r * R));
-      }
-      for (let i = 0; i < INN; i++) {
-        const y = 1 - (i / (INN - 1)) * 2, r = Math.sqrt(1 - y * y), th = i * 2.4 + 1, R = 1.25 + (Math.random() - 0.5) * 0.3;
-        pts.push(new THREE.Vector3(Math.cos(th) * r * R, y * R, Math.sin(th) * r * R));
+      // DNA-style double helix of data: two glowing strands joined by rungs
+      const pts = [], NH = 64, OUT = NH, HT = 6.2, HR = 1.45, TURNS = 3;
+      for (let s2 = 0; s2 < 2; s2++) for (let i = 0; i < NH; i++) {
+        const u = i / (NH - 1), th = u * Math.PI * 2 * TURNS + s2 * Math.PI;
+        pts.push(new THREE.Vector3(Math.cos(th) * HR, (u - 0.5) * HT, Math.sin(th) * HR));
       }
       const edges = [], adj = pts.map(() => []);
-      for (let i = 0; i < pts.length; i++) {
-        const near = pts.map((p, j) => [p.distanceTo(pts[i]), j]).filter(([d, j]) => j !== i && d < (i < OUT ? 1.0 : 1.45)).sort((a, b) => a[0] - b[0]).slice(0, 4);
-        near.forEach(([, j]) => { if (!edges.some(([u, v]) => (u === i && v === j) || (u === j && v === i))) { edges.push([i, j]); adj[i].push(j); adj[j].push(i); } });
-      }
+      const link = (i, j) => { edges.push([i, j]); adj[i].push(j); adj[j].push(i); };
+      for (let s2 = 0; s2 < 2; s2++) for (let i = 0; i < NH - 1; i++) link(s2 * NH + i, s2 * NH + i + 1);
+      for (let i = 1; i < NH - 1; i += 2) link(i, NH + i);
       const lp = new Float32Array(edges.length * 6), lc = new Float32Array(edges.length * 6);
       edges.forEach(([i, j], k) => { pts[i].toArray(lp, k * 6); pts[j].toArray(lp, k * 6 + 3); });
       const lg = new THREE.BufferGeometry();
@@ -67,16 +62,16 @@ export default function Scene3D() {
         const mat = new THREE.PointsMaterial({ size, map: glowTex, transparent: true, opacity, depthWrite: false, sizeAttenuation: true });
         const p = new THREE.Points(g, mat); orb.add(p); return mat;
       };
-      const outerMat = mkPoints(pts.slice(0, OUT), 0.34, 1), innerMat = mkPoints(pts.slice(OUT), 0.22, 0.9);
+      const outerMat = mkPoints(pts.slice(0, OUT), 0.42, 1), innerMat = mkPoints(pts.slice(OUT), 0.42, 1);
       // pulses
-      const PN = 26, pulse = Array.from({ length: PN }, () => { const e = edges[Math.floor(Math.random() * edges.length)]; return { a: e[0], b: e[1], u: Math.random(), sp: 0.5 + Math.random() * 0.9 }; });
+      const PN = 34, pulse = Array.from({ length: PN }, () => { const e = edges[Math.floor(Math.random() * edges.length)]; return { a: e[0], b: e[1], u: Math.random(), sp: 0.5 + Math.random() * 0.9 }; });
       const pp = new Float32Array(PN * 3), pg2 = new THREE.BufferGeometry(); pg2.setAttribute('position', new THREE.BufferAttribute(pp, 3));
       const pulseMat = new THREE.PointsMaterial({ size: 0.5, map: glowTex, transparent: true, opacity: 1, depthWrite: false, color: 0xffffff });
       orb.add(new THREE.Points(pg2, pulseMat));
       // core glow
       const coreGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: cA, transparent: true, opacity: 0.9, depthWrite: false }));
-      coreGlow.scale.setScalar(3.4); orb.add(coreGlow);
-      const coreDot = new THREE.Mesh(new THREE.SphereGeometry(0.32, 32, 24), new THREE.MeshBasicMaterial({ color: 0xffffff })); orb.add(coreDot);
+      coreGlow.scale.setScalar(2.6); orb.add(coreGlow);
+      const coreDot = new THREE.Mesh(new THREE.SphereGeometry(0.32, 32, 24), new THREE.MeshBasicMaterial({ color: 0xffffff })); coreDot.visible = false; orb.add(coreDot);
       const mkRing = (rad, col, tx, tz) => { const r = new THREE.Mesh(new THREE.TorusGeometry(rad, 0.012, 8, 240), new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.55 })); r.rotation.set(tx, 0, tz); rig.add(r); return r; };
       const ringA = mkRing(3.3, cB, Math.PI / 2.2, 0), ringB = mkRing(3.75, cA, Math.PI / 2.7, 0.6);
 
@@ -168,7 +163,7 @@ export default function Scene3D() {
         cam.lookAt(0, 0, 0); cam.rotateZ(st.roll);
 
         // orb: slow spin (faster while scrolling), gentle breathing, pulses hopping along links
-        orb.rotation.y = t * 0.16 + st.ry * 0.5 + spin * 2; orb.rotation.x = 0.35 + Math.sin(t * 0.3) * 0.1 + m.y * 0.3;
+        orb.rotation.y = t * 0.16 + st.ry * 0.5 + spin * 2; orb.rotation.x = 0.18 + Math.sin(t * 0.3) * 0.06 + m.y * 0.2; orb.rotation.z = -0.28;
         orb.scale.setScalar(1 + Math.sin(t * 1.4) * 0.025);
         ringA.rotation.z += 0.004; ringB.rotation.z -= 0.003; ringA.scale.setScalar(st.orbit); ringB.scale.setScalar(st.orbit);
         const dark = document.documentElement.dataset.theme !== 'light';
