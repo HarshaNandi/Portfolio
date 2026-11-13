@@ -164,8 +164,8 @@ export default function Scene3D() {
 
         // orb: slow spin (faster while scrolling), gentle breathing, pulses hopping along links
         orb.rotation.y = t * 0.16 + st.ry * 0.5 + spin * 2; orb.rotation.x = 0.18 + Math.sin(t * 0.3) * 0.06 + m.y * 0.2; orb.rotation.z = -0.28;
-        orb.scale.setScalar(1 + Math.sin(t * 1.4) * 0.025);
-        ringA.rotation.z += 0.004; ringB.rotation.z -= 0.003; ringA.scale.setScalar(st.orbit); ringB.scale.setScalar(st.orbit);
+        orb.scale.setScalar(1.18 + Math.sin(t * 1.4) * 0.03);
+        ringA.rotation.z += 0.004; ringB.rotation.z -= 0.003; ringA.scale.setScalar(st.orbit * 1.25); ringB.scale.setScalar(st.orbit * 1.25);
         const dark = document.documentElement.dataset.theme !== 'light';
         const blend = dark ? THREE.AdditiveBlending : THREE.NormalBlending;
         if (outerMat.blending !== blend) { [outerMat, innerMat, pulseMat, coreGlow.material].forEach((mm) => { mm.blending = blend; mm.needsUpdate = true; }); lineMat.blending = blend; lineMat.needsUpdate = true; }
@@ -190,9 +190,10 @@ export default function Scene3D() {
         });
         dust.rotation.y = t * 0.02 + p * 2; dust.rotation.x = p * 0.8;
 
-        const [n0, n1] = window.__acc || [];
-        if (n0) { tA.set(n0); tB.set(n1); }
-        cA.lerp(tA, 0.04); cB.lerp(tB, 0.04);
+        const [n0, n1] = window.__acc || ['#7c5cff', '#ff4d8d'];
+        tA.set(n0); tB.set(n1);
+        const hs = (t * 0.045) % 1; tA.offsetHSL(hs, 0, 0); tB.offsetHSL(hs, 0, 0); // slow rainbow drift
+        cA.lerp(tA, 0.08); cB.lerp(tB, 0.08);
         outerMat.color.copy(cA); innerMat.color.copy(cB); pulseMat.color.copy(cB).lerp(new THREE.Color(0xffffff), 0.5); coreGlow.material.color.copy(cA);
         ringA.material.color.copy(cB); ringB.material.color.copy(cA); l2.color.copy(cB); dustMat.color.copy(cB);
         renderer.render(scene, cam);

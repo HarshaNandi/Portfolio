@@ -11,44 +11,205 @@
   "github": "https://github.com/HarshaNandi/",
   "summary": "Fourth-year B.Tech Computer Science student specialising in Data Science. I build web applications with Laravel and WordPress, and turn large datasets into predictive models and real-time dashboards with Python, SQL and Power BI.",
   "doors": [
-    { "title": "Web Architect", "tag": "Laravel · WordPress", "text": "Enterprise web apps, CRMs and client sites — new features, API integrations, database optimisation and production fixes.", "stack": ["Laravel", "PHP", "WordPress", "MySQL", "Git"] },
-    { "title": "Data Detective", "tag": "Python · SQL", "text": "Cleaning, shaping and analysing large datasets so the pipeline stays consistent and the numbers can be trusted.", "stack": ["Python", "SQL", "MySQL", "Excel", "Jupyter"] },
-    { "title": "Insight Designer", "tag": "Power BI · Excel", "text": "Dynamic visual dashboards that track KPIs — revenue, product performance, customer demographics and web traffic.", "stack": ["Power BI", "MS Excel", "Data Viz"] },
-    { "title": "Pattern Hunter", "tag": "ML · NLP", "text": "Predictive models and text classification that sharpen forecasting and business intelligence.", "stack": ["Python", "Statistics", "Data Mining", "NLP"] },
-    { "title": "Bug Slayer", "tag": "Debugging · Git", "text": "Solid CS fundamentals, code reviews, debugging complex issues and shipping production-ready features with a team.", "stack": ["Git", "VS Code", "Debugging", "Code reviews"] }
+    {
+      "title": "Web Architect",
+      "tag": "Laravel · WordPress",
+      "text": "Enterprise web apps, CRMs and client sites — new features, API integrations, database optimisation and production fixes.",
+      "stack": [
+        "Laravel",
+        "PHP",
+        "WordPress",
+        "MySQL",
+        "Git"
+      ]
+    },
+    {
+      "title": "Data Detective",
+      "tag": "Python · SQL",
+      "text": "Cleaning, shaping and analysing large datasets so the pipeline stays consistent and the numbers can be trusted.",
+      "stack": [
+        "Python",
+        "SQL",
+        "MySQL",
+        "Excel",
+        "Jupyter"
+      ]
+    },
+    {
+      "title": "Insight Designer",
+      "tag": "Power BI · Excel",
+      "text": "Dynamic visual dashboards that track KPIs — revenue, product performance, customer demographics and web traffic.",
+      "stack": [
+        "Power BI",
+        "MS Excel",
+        "Data Viz"
+      ]
+    },
+    {
+      "title": "Pattern Hunter",
+      "tag": "ML · NLP",
+      "text": "Predictive models and text classification that sharpen forecasting and business intelligence.",
+      "stack": [
+        "Python",
+        "Statistics",
+        "Data Mining",
+        "NLP"
+      ]
+    },
+    {
+      "title": "Bug Slayer",
+      "tag": "Debugging · Git",
+      "text": "Solid CS fundamentals, code reviews, debugging complex issues and shipping production-ready features with a team.",
+      "stack": [
+        "Git",
+        "VS Code",
+        "Debugging",
+        "Code reviews"
+      ]
+    }
   ],
   "story": [
-    { "date": "Feb 2026 – Now", "title": "Associate Developer", "org": "Corelynx Solutions Private Limited", "points": [
-      "Developed and maintained enterprise web applications using Laravel and WordPress, delivering scalable solutions for multiple client projects.",
-      "Contributed to QuantMX CRM and CareAxis: built new features, integrated APIs, optimised databases and resolved production issues.",
-      "Customised Hawaii Jeep Rental and The Catalyst WordPress sites through theme development, plugin customisation, API integrations and performance work.",
-      "Worked with cross-functional teams using Git — code reviews, debugging and production-ready delivery."
-    ] },
-    { "date": "Feb – Mar 2025", "title": "Data Analyst Associate Intern", "org": "Excelerate · Dubai (remote)", "points": [
-      "Streamlined large dataset processing for consistent, accurate data pipelines.",
-      "Engineered predictive models in Python to improve forecasting and business intelligence.",
-      "Built dynamic dashboards in Power BI and Tableau to track KPIs.",
-      "Analysed trends and patterns to surface actionable business opportunities."
-    ] },
-    { "date": "2022 – 2026", "title": "B.Tech, Computer Science", "org": "Brainware University", "points": ["Specialisation: Data Science."] },
-    { "date": "2020", "title": "Higher Secondary (12th)", "org": "Rampurhat J.L Vidyabhaban", "points": [] },
-    { "date": "2018", "title": "Secondary (10th) — 87%", "org": "Bahutali High School", "points": [] }
+    {
+      "date": "Feb 2026 – Now",
+      "title": "Associate Developer",
+      "org": "Corelynx Solutions Private Limited",
+      "points": [
+        "Developed and maintained enterprise web applications using Laravel and WordPress, delivering scalable solutions for multiple client projects.",
+        "Contributed to QuantMX CRM and CareAxis: built new features, integrated APIs, optimised databases and resolved production issues.",
+        "Customised Hawaii Jeep Rental and The Catalyst WordPress sites through theme development, plugin customisation, API integrations and performance work.",
+        "Worked with cross-functional teams using Git — code reviews, debugging and production-ready delivery."
+      ]
+    },
+    {
+      "date": "Feb – Mar 2025",
+      "title": "Data Analyst Associate Intern",
+      "org": "Excelerate · Dubai (remote)",
+      "points": [
+        "Streamlined large dataset processing for consistent, accurate data pipelines.",
+        "Engineered predictive models in Python to improve forecasting and business intelligence.",
+        "Built dynamic dashboards in Power BI and Tableau to track KPIs.",
+        "Analysed trends and patterns to surface actionable business opportunities."
+      ]
+    },
+    {
+      "date": "2022 – 2026",
+      "title": "B.Tech, Computer Science",
+      "org": "Brainware University",
+      "points": [
+        "Specialisation: Data Science."
+      ]
+    },
+    {
+      "date": "2020",
+      "title": "Higher Secondary (12th)",
+      "org": "Rampurhat J.L Vidyabhaban",
+      "points": []
+    },
+    {
+      "date": "2018",
+      "title": "Secondary (10th) — 87%",
+      "org": "Bahutali High School",
+      "points": []
+    }
   ],
   "projects": [
-    { "title": "QuantMX CRM", "kind": "Work", "date": "2026", "text": "New features, API integrations and database optimisation on a production CRM platform." },
-    { "title": "CareAxis", "kind": "Work", "date": "2026", "text": "Feature development and production issue resolution for a client web application." },
-    { "title": "Hawaii Jeep Rental", "kind": "Work", "date": "2026", "text": "WordPress theme development, plugin customisation, API integrations and speed improvements." },
-    { "title": "The Catalyst", "kind": "Work", "date": "2026", "text": "WordPress customisation and performance improvements for a live client website." },
-    { "title": "Spam Mail Classification", "kind": "Data · NLP", "date": "Nov – Dec 2024", "text": "Text classifier that separates spam from legitimate email." },
-    { "title": "Shopping Trend Analysis", "kind": "Data", "date": "Nov – Dec 2024", "text": "Analysed large datasets to uncover consumer behaviour trends and preferences." },
-    { "title": "E-commerce Sales Analysis", "kind": "Dashboard", "date": "Aug 2024", "text": "Dashboard showing revenue, product performance and customer demographics." },
-    { "title": "Google Console Report", "kind": "Dashboard", "date": "Sep 2024", "text": "Visualised website performance data including CTR and impressions." }
+    {
+      "title": "QuantMX CRM",
+      "kind": "Work",
+      "date": "2026",
+      "text": "New features, API integrations and database optimisation on a production CRM platform.",
+      "url": "https://app.quantmx.ai/"
+    },
+    {
+      "title": "CareAxis",
+      "kind": "Work",
+      "date": "2026",
+      "text": "Feature development and production issue resolution for a client web application.",
+      "url": "https://www.careaxis.ai/"
+    },
+    {
+      "title": "Hawaii Jeep Rental",
+      "kind": "Work",
+      "date": "2026",
+      "text": "WordPress theme development, plugin customisation, API integrations and speed improvements.",
+      "url": "https://www.hawaiiliftedjeeprentals.com/"
+    },
+    {
+      "title": "The Catalyst",
+      "kind": "Work",
+      "date": "2026",
+      "text": "WordPress customisation and performance improvements for a live client website.",
+      "url": "https://www.thecatalyst.work/"
+    },
+    {
+      "title": "Spam Mail Classification",
+      "kind": "Data · NLP",
+      "date": "Nov – Dec 2024",
+      "text": "Text classifier that separates spam from legitimate email."
+    },
+    {
+      "title": "Shopping Trend Analysis",
+      "kind": "Data",
+      "date": "Nov – Dec 2024",
+      "text": "Analysed large datasets to uncover consumer behaviour trends and preferences."
+    },
+    {
+      "title": "E-commerce Sales Analysis",
+      "kind": "Dashboard",
+      "date": "Aug 2024",
+      "text": "Dashboard showing revenue, product performance and customer demographics."
+    },
+    {
+      "title": "Google Console Report",
+      "kind": "Dashboard",
+      "date": "Sep 2024",
+      "text": "Visualised website performance data including CTR and impressions."
+    }
   ],
   "skills": [
-    { "group": "Languages", "items": ["Python", "SQL", "MySQL", "PHP (Laravel)"] },
-    { "group": "Data & Visualisation", "items": ["Power BI", "MS Excel", "Data Sets"] },
-    { "group": "Specialised", "items": ["Data Mining", "Statistics", "Data Visualisation", "NLP"] },
-    { "group": "Tools", "items": ["Git", "Jupyter", "VS Code", "Google Colab", "MS Office"] },
-    { "group": "Certifications", "items": ["Data Analytics", "Presentation Skills", "Instagram Marketing"] }
+    {
+      "group": "Languages",
+      "items": [
+        "Python",
+        "SQL",
+        "MySQL",
+        "PHP (Laravel)"
+      ]
+    },
+    {
+      "group": "Data & Visualisation",
+      "items": [
+        "Power BI",
+        "MS Excel",
+        "Data Sets"
+      ]
+    },
+    {
+      "group": "Specialised",
+      "items": [
+        "Data Mining",
+        "Statistics",
+        "Data Visualisation",
+        "NLP"
+      ]
+    },
+    {
+      "group": "Tools",
+      "items": [
+        "Git",
+        "Jupyter",
+        "VS Code",
+        "Google Colab",
+        "MS Office"
+      ]
+    },
+    {
+      "group": "Certifications",
+      "items": [
+        "Data Analytics",
+        "Presentation Skills",
+        "Instagram Marketing"
+      ]
+    }
   ]
 }

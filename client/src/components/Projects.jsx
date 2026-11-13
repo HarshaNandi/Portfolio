@@ -13,10 +13,11 @@ export default function Projects({ projects }) {
       </div>
       <div className="grid">
         {list.map((p, i) => (
-          <article key={p.title} className="proj reveal" data-tilt="10" style={{ transitionDelay: `${(i % 4) * 70}ms` }}>
+          <article key={p.title} className={`proj reveal${p.url ? ' live' : ''}`} data-tilt="10" style={{ transitionDelay: `${(i % 4) * 70}ms` }}>
             <div className="proj-top"><span>{p.kind}</span><span>{p.date}</span></div>
-            <h3>{p.title}</h3>
+            <h3>{p.url ? <a className="proj-link" href={p.url} target="_blank" rel="noopener noreferrer">{p.title}</a> : p.title}</h3>
             <p>{p.text}</p>
+            {p.url && <span className="visit">{p.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗</span>}
             <span className="arrow-ico">↗</span>
           </article>
         ))}
